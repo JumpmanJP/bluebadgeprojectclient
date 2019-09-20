@@ -1,0 +1,10 @@
+.card-like{
+    padding: 1em;
+    background-color: darkgray;
+    border-radius: 15px;
+    width: 10vw;
+    margin: 6vh auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}

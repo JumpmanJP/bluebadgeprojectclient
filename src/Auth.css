@@ -1,0 +1,15 @@
+.App {
+    text-align: center;
+    align-items: stretch;
+    align-self: flex-start;
+    flex-direction: row;
+    display: flex;
+  }
+
+  .login {
+      text-align: right;
+  }
+
+  .signup {
+      text-align: right;
+  }

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import Login from './Login';
-import Signup from './Signup';
+// import Login from './Login';
+// import Signup from './Signup';
 import './Auth.css'
 
 
@@ -30,29 +30,31 @@ const Auth = (props) => {
 
   let handleSubmit = (event) => {
       event.preventDefault();
-      let url = login ? 'https://travel-app-server.herokuapp.com/auth/Login' : 'https://travel-app-server.herokuapp.com/auth/Signup'
-
+      let url = login ? 'https://travel-app-server.herokuapp.com/api/email/signin' : 'https://travel-app-server.herokuapp.com/api/email/createuser'
       fetch(url, {
           method: 'POST',
           headers: {
               'Content-Type' : 'application/json'
           },
-          body:JSON.stringify({
-              locationOfExperience: locationOfExperience,
-              ownerOfExperience: ownerOfExperience,
-              reviewsOfExperience: reviewsOfExperience,
-              likesOfExperience: likesOfExperience
+          body:JSON.stringify({user:{
+            email: email,
+            password: password,
+            experiencegiver: true,
+            experienceseeker: true,
+          }
+        
           })
       }).then( res => res.json())
       .then(data => {
-          props.tokenHandler(data.sessionToken)
+          console.log(data.sessionToken)
+          props.updateToken(data.sessionToken)
       })
   }
 
 
 
   return(
-      <form className="card-like">
+      <form onSubmit={(e)=>handleSubmit(e)}className="card-like">
           <h1>{ login ? 'Log In' : 'Sign up' }</h1>
           <label className="display-block" htmlFor="email:"> Email: </label>
           <input className="display-block" type="text" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -73,7 +75,7 @@ const Auth = (props) => {
       }
           <button onClick={(e) => changeLogin(e)}>{ login ? 'Sign Up' : 'Log In'}</button>
 
-          <button type="submit" onClick={(e) => handleSubmit(e)}> Submit </button>
+          <button type="submit" > Submit </button>
 
                 {/* <Auth updateToken={updateToken} /> */}
 
@@ -84,71 +86,5 @@ const Auth = (props) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// import { makeStyles } from '@material-ui/core/styles';
-// import Grid from '@material-ui/core/Grid';
-// import Paper from '@material-ui/core/Paper';
-// // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import { BrowserRouter, Route } from 'react-router-dom';
-
-
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//       flexGrow: 1,
-//     },
-//     paper: {
-//       height: 140,
-//       width: 100,
-//     },
-//     control: {
-//       padding: theme.spacing(2),
-//     },
-//   }));
-
-
-// //Imported some grids from materials ui.
-
-// const Auth = (props) => { 
-//     const [spacing, setSpacing] = React.useState(2);
-//     const classes = useStyles();
-
-
-
-
-//   return(
-    
-//       <Grid container className={classes.root} spacing={2}>
-//       <Grid item xs={12}>
-//         <Grid container justify="center" spacing={spacing}>
-//             <Grid  item>
-
-//             <Login  updateToken={props.updateToken}/>
-
-
-//             </Grid>
-//             <Grid  item>
-
-//             <Signup  updateToken={props.updateToken}/>
-
-
-
-//             </Grid>
-//         </Grid>
-//       </Grid>
-//     </Grid>
-//   );
-  
-// }
 
 export default Auth;

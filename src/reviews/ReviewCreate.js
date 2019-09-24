@@ -19,59 +19,23 @@ const ReviewCreate = (props) => {
       })
     }) .then((res) => res.json())
     .then((logData) => { 
-      console.log(logData);
       setLocation(''); 
-      setReview('');  
-      props.fetchReviews(); 
+      setReview(logData);  
+      // props.fetchReviews(); 
     })
   }
-}
+// The function ReviewCreate is posting to the database and then resetting the location and review. I'm not sure if I should reset my location and review. If I don't, what should I place within the ('') ? 
 
 return (
+<div>
 
   <ReviewTextField />
 
+
+</div>
+
 )
+}
 
+export default ReviewCreate 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // return(
-  //   <>
-  //     <h3>Write a Review</h3>
-  //     <Form onSubmit={handleSubmit} >
-  //     <FormGroup>
-  //         <Label htmlFor="location"/>
-  //         <Input type="select" name="location" value={location} onChange={(e) => setLocation(e.target.value)} >
-  //           <option value="Prague">Prague</option>
-  //           <option value="Hanoi">Hanoi</option>
-  //           <option value="Chicago">Chicago</option>
-  //         </Input>
-  //       </FormGroup>
-  //       <FormGroup>
-  //         <Label htmlFor="review"/>
-  //         <Input name="review" value={review} onChange={(e) => setReview(e.target.value)} />
-  //       </FormGroup>
-  //       <Button type="submit">Click to Submit</Button>
-  //     </Form>
-  //   </>
-  // )}
-
-export default ReviewCreate;

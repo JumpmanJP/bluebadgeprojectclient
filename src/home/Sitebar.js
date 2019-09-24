@@ -71,7 +71,7 @@ const Sitebar = (props) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-        <Button color="inherit" type="button" onClick={handleOpen}>
+        {/* <Button color="inherit" type="button" onClick={handleOpen}>
         Sign UP/ Log IN 
       </Button>
         <Modal
@@ -83,11 +83,11 @@ const Sitebar = (props) => {
         <div style={modalStyle} className={classes.paper}>
           <Auth />
         </div>
-      </Modal>
+      </Modal> */}
           <Typography variant="h6" className={classes.title}>
             Wandur.EARTH
           </Typography>
-          <Button  color="inherit">Log Out</Button>
+          <Button  onClick={props.clickLogout} color="inherit">Log Out</Button>
         </Toolbar>
       </AppBar>
     </div>

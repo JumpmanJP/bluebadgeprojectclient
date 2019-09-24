@@ -1,60 +1,121 @@
 import React, {useState} from 'react';
-import {Table, Button} from 'reactstrap';
+import ReviewCreate from './ReviewCreate';
+// import ReviewsComponent from './ReviewsComponent';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
+const useStyles = makeStyles(theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+  
+  const ReviewsTable = (props) => {
+    const [selectedCity,setSelectedCity] = useState('');
+    // const [value, setValues] = useState('');
+  
+    const classes = useStyles();
+  
+    const [value, setValues] = React.useState({
+  
+      city: '',
+      name: 'hai',
+    });
+  
+    const inputLabel = React.useRef(null);
+    const [labelWidth, setLabelWidth] = React.useState(0);
+    React.useEffect(() => {
+      setLabelWidth(inputLabel.current.offsetWidth);
+    }, []);
+  
 
-const ReviewsTable = (props) => {
+    // const [selected, setSelected] = useState(false);
+    // const [ city, setCity] = useState('');
+    const [reviews, setReviews] = useState('');
+    const [location, setLocation] = useState('');
 
-  const [deleteReview, setDeleteReview] = useState('');
-  const [locationOfExperience, setLocationOfExperience] = useState('');
-  const [reviewsOfExperience, setReviewsOfExperience] = useState('');
-
-  const CityReview = (review) => {
-    fetch(`https://travel-app-server.herokuapp.com/experience/${locationOfExperience.props}`, {
-        method: 'GET', 
-        headers: new Headers({
+    const fetchReviews = (e) => { 
+        e.preventDefault();
+        console.log(e.target.value);
+        let city= e.target.value
+        console.log(props.token);
+        fetch(`https://travel-app-server.herokuapp.com/experience/${city}`, { 
+          method: 'GET',
+          headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': props.token
+            'Authorization': props.token 
+          })
+        }) .then((res) => res.json())
+        .then((logData) => { 
+          console.log(logData);
+          setReviews(logData);
+          setLocation(''); 
         })
-    })
-    .then(() => props.fetchReviews())
-  }
+      }
+  
+      // (reviews === ) ?
 
 
 
-  const reviewMapper = () => {
-    return props.fetchReviews.map((reviews, index) => {
-      return(
-        <tr key={index}>
-          <th scope="row">{locationOfExperience.props}</th>
-          <td>{locationOfExperience.props}</td>
-          <td>{reviewsOfExperience.props}</td>
-          <td>
-            <Button color="warning">Update</Button>
-            <Button color="danger" onClick={() => {deleteReview(reviews)}}>Delete</Button>
-          </td>
-        </tr>
-      )
-    })
-  }
 
-  return(
-    <>
-    <h3>Reviews History</h3>
-    <hr/>
-    <Table striped>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Location</th>
-          <th>Review/Rating</th>
-        </tr>
-      </thead>
-      <tbody>
-        {reviewMapper()}
-      </tbody>
-    </Table>
-    </>
-  )
-}
+    function handleChange(event) {
+      setValues(oldValues => ({
+        ...oldValues,
+        [event.target.name]: event.target.value,
+      }));
+  
+    }
+  
+    return (
+      <div>
+  
+      <form className={classes.root} autoComplete="off">
+        
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
+            City
+          </InputLabel>
+          <Select
+            value={selectedCity}
+            onChange={(e) => fetchReviews(e)}
+            labelWidth={labelWidth}
+            inputProps={{
+              name: 'age',
+              id: 'outlined-age-simple',
+            }}
+            >
+  
+            <MenuItem value='Prague'> Prague </MenuItem>
+            <MenuItem value='Hanoi'> Hanoi </MenuItem>
+            <MenuItem value='Tokyo'> Tokyo </MenuItem>
+  
+          </Select>
+        </FormControl>
+  
+      </form>
+  
+      <ReviewCreate />
+          {/* <ReviewsComponent  fetchReviews={fetchReviews} reviewCreate={reviews}/> */}
 
-export default ReviewsTable;
+      {/* <ReviewIndex fetch={props.location} /> */}
+      
+    
+            {/* /* without the div, I get an error. In react we must enclose everything in the return.  */}
+      </div> 
+    );
+  } 
+  
+  export default ReviewsTable
+  

@@ -1,51 +1,48 @@
-import React, {useState, useEffect} from 'react';
-import {Container, Row, Col} from 'reactstrap';
-import Search from '../Search';
-import { getThemeProps } from '@material-ui/styles';
-import CitySelect from '../cityIndex/CitySelect';
-import ReviewsTable from './ReviewsTable';
-import ReviewCreate from './ReviewCreate';
+// import React, {useState, useEffect} from 'react';
+// import {Container, Row, Col} from 'reactstrap';
+// import { getThemeProps } from '@material-ui/styles';
+// // import CitySelect from '../cityIndex/CitySelect';
+// import ReviewsTable from './ReviewsTable';
+// import ReviewCreate from './ReviewCreate';
+// import ReviewsComponent from './ReviewsComponent';
 
-function Index() {
-    const [selected, setSelected] = useState(false);
-    // const [ city, setCity] = useState('');
-    const [reviews, setReviews] = useState('');
-    const [location, setLocation] = useState('');
+// const Index = (props) => {
+//     const [selected, setSelected] = useState(false);
+//     // const [ city, setCity] = useState('');
+//     const [reviews, setReviews] = useState('');
+//     const [location, setLocation] = useState('');
   
-    const fetchReviews = (e) => { 
-      e.preventDefault();
-      fetch('https://travel-app-server.herokuapp.com/api/email/experience/', { 
-        method: 'GET', 
-        body: JSON.stringify({log: {location: location, reviews: reviews}}), 
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          'Authorization': props.token 
-        })
-      }) .then((res) => res.json())
-      .then((logData) => { 
-        console.log(logData);
-        setLocation(''); 
-        setReviews('');  
-        props.fetchReviews(); 
-      })
-    }
+//     const fetchReviews = (e) => { 
+//       e.preventDefault();
+//       fetch(`https://travel-app-server.herokuapp.com/api/email/experience/${props.selectedCity}`, { 
+//         method: 'GET', 
+//         body: JSON.stringify( {locationOfExperience: location, reviewsOfExperience: reviews}), 
+//         headers: new Headers({
+//           'Content-Type': 'application/json',
+//           'Authorization': props.token 
+//         })
+//       }) .then((res) => res.json())
+//       .then((logData) => { 
+//         console.log(logData);
+//         setReviews(logData);
+//         setLocation(''); 
+//       })
+//     }
 
-    useEffect(() => {
-      fetchReviews();
-    }, [])
-
+//     // useEffect(() => {
+//     //   fetchReviews();
+//     // }, [])
 
 
-// (selected) ?  (props.city) : <CitySelect/>
 
-    return (
-        <div className="App">
+//     return (
+//         <div className="App">
                   
-          <ReviewCreate />
-          <ReviewsTable />
+//           <ReviewCreate />
+//           <ReviewsComponent  fetchReviews={fetchReviews} reviewCreate={reviews}/>
     
-        </div>
-      );
-    }
+//         </div>
+//       );
+//     }
     
-    export default Index;
+//     export default Index;

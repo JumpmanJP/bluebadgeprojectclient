@@ -1,21 +1,22 @@
-import React from 'react';
-import citySelect from './CitySelect';
-import reviewIndex from '../reviews/ReviewIndex';
+import React, { useState, useEffect } from 'react';
+// import CitySelect from './CitySelect';
+// import ReviewIndex from '../reviews/ReviewIndex';
+import ReviewsTable from '../reviews/ReviewsTable';
 
-function cityIndex() {
+const CityIndex = () => {
 
 
-const protectedViews = () => {
-   <citySelect /> ? <reviewIndex /> : null ;
 
-}
+
 
 return (
-    <div>
-        {protectedViews()}
-    </div>
-);
+   <div>
+       <ReviewsTable />
+       {/* <ReviewIndex /> */}
 
+
+   </div>
+);
 }
 
-export default cityIndex
+export default CityIndex

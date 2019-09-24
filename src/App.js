@@ -3,11 +3,10 @@ import './App.css';
 import SiteBar from './home/Sitebar';
 import Auth from './auth/Auth';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ReviewIndex from './reviews/ReviewIndex';
-import ReviewTextField from './reviews/ReviewTextField';
-import ReviewCreate from './countryIndex/ReviewCreate';
-import ReviewsTable from './countryIndex/ReviewsTable';
-import cityIndex from './cityIndex/CityIndex';
+// import ReviewIndex from './reviews/ReviewIndex';
+// import ReviewTextField from './reviews/ReviewTextField';
+import CityIndex from './cityIndex/CityIndex';
+import ReviewsTable from './reviews/ReviewsTable';
 
 
 function App() {
@@ -44,8 +43,8 @@ function App() {
       <SiteBar clickLogout={clearToken} />
       {/* {protectedViews()} */}
       <br></br>
-      <cityIndex />
-
+      {(sessionToken === localStorage.getItem('token')) ? <ReviewsTable token={sessionToken}/> : <Auth updateToken={updateToken} />}
+      
 
     </div>
   );

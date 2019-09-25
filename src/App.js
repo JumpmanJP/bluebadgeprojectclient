@@ -32,7 +32,7 @@ function App() {
   }
 
   // const protectedViews = () => {
-  //   return (sessionToken === localStorage.getItem('token') ? <ReviewIndex token={sessionToken}/>
+  //   return (sessionToken === localStorage.getItem('token') ? <ReviewsTable token={sessionToken}/>
   //   : <Auth updateToken={updateToken}/>)
   //  }
 

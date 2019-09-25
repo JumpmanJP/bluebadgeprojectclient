@@ -3,10 +3,11 @@ import {Table, Button} from 'reactstrap';
 
 const ReviewsComponent = (props) => {
     const [locationOfExperience, setLocationOfExperience] = useState('');
-    const [reviewsOfExperience, setReviewsOfExperience] = useState('');
+    const [reviewsOfExperience, setReviewsOfExperience] = useState([]);
     const [ownerOfExperience, setOwnerOfExperience] = useState('');
     const [review, setReview] = useState('');
 
+    // (locationOfExperience === {selectedCity}) ? reviewsMapper : null ; 
 
   const deleteReview = (review) => {
     fetch(`https://travel-app-server.herokuapp.com/experience/${ownerOfExperience.id}`, {
@@ -29,17 +30,16 @@ const ReviewsComponent = (props) => {
     })
     .then(() => props.fetchReviews())
   }
-
+// console.log(props.reviewsTable);
   const reviewsMapper = () => {
-    console.log(props);
-    return props.reviewsTable.map((review, index) => {
+     props.reviewsTable.map((review, index) => {
       return(
         <tr key={index}>
-          <th scope="row">{setLocationOfExperience.STRING}</th>
+          <th scope="row">{}</th>
           <td>{props.selectedCity}</td>
           <td>{props.reviewsOfExperience}</td>
           <td>
-            <Button color="warning"onClick={() => {updateReview(review)}}>Update</Button>
+            <Button color="warning" onClick={() => {updateReview(review)}}>Update</Button>
             <Button color="danger" onClick={() => {deleteReview(review)}}>Delete</Button>
           </td>
         </tr>
@@ -49,7 +49,7 @@ const ReviewsComponent = (props) => {
 
   return(
     <>
-    <h3>Reviews History</h3>
+    <h3>Written Reviews </h3>
     <hr/>
     <Table striped>
       <thead>

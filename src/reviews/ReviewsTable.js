@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ReviewCreate from './ReviewCreate';
-// import ReviewsComponent from './ReviewsComponent';
+import ReviewsComponent from './ReviewsComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -43,13 +43,14 @@ const useStyles = makeStyles(theme => ({
 
     // const [selected, setSelected] = useState(false);
     // const [ city, setCity] = useState('');
-    const [reviews, setReviews] = useState('');
+    const [reviews, setReviews] = useState([]);
+    // I could not get my fetch results to render to the page without the array brackets in useState for reviews. I must use the empty array brackets to house my data to the page. The .map method could not work in ReviewsComponent becasue it was reading it as a string. When we console.logged it, it was a string. By giving it the array brackets, we allowed the .map method to run through the array.
     const [location, setLocation] = useState('');
 
     const fetchReviews = (e) => { 
         e.preventDefault();
         console.log(e.target.value);
-        let city= e.target.value
+        let city = e.target.value
         console.log(props.token);
         fetch(`https://travel-app-server.herokuapp.com/experience/${city}`, { 
           method: 'GET',
@@ -64,19 +65,6 @@ const useStyles = makeStyles(theme => ({
           setLocation(''); 
         })
       }
-  
-      // (reviews === ) ?
-
-
-
-
-    function handleChange(event) {
-      setValues(oldValues => ({
-        ...oldValues,
-        [event.target.name]: event.target.value,
-      }));
-  
-    }
   
     return (
       <div>
@@ -106,10 +94,12 @@ const useStyles = makeStyles(theme => ({
   
       </form>
   
-      <ReviewCreate />
-          {/* <ReviewsComponent  fetchReviews={fetchReviews} reviewCreate={reviews}/> */}
 
-      {/* <ReviewIndex fetch={props.location} /> */}
+
+
+      {/* <ReviewCreate /> */}
+        <ReviewsComponent fetchReviews={fetchReviews} reviewsTable={reviews}/>
+
       
     
             {/* /* without the div, I get an error. In react we must enclose everything in the return.  */}

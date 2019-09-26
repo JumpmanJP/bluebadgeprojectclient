@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import ReviewTFsubmitButton from './ReviewTFsubmitButton';
+// import ReviewTFsubmitButton from './ReviewTFsubmitButton';
 
 
 
@@ -29,19 +29,19 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function OutlinedTextFields() {
+export default function OutlinedTextFields(props) {
 
   const classes = useStyles();
-  const [review, setReview] = React.useState({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
-  });
+  // const [review, setReview] = React.useState({
+  //   name: 'Cat in the Hat',
+  //   age: '',
+  //   multiline: 'Controlled',
+  //   currency: 'EUR',
+  // });
 
-  const handleChange = name => event => {
-    setReview({ ...review, [name]: event.target.review });
-  };
+  // const handleChange = name => event => {
+  //   setReview({ ...review, [name]: event.target.review });
+  // };
 
 
 
@@ -56,16 +56,17 @@ return (
         rows="4"
         fullWidth
         defaultValue="Review Here"
-        className={classes.textField}
+        className={classes.textField} 
+        onChange={(e) => props.setReview(e.target.value)}
         margin="normal"
         variant="outlined"
 />
-      <label htmlFor="Review" />
-      <input name="review" value={review} onChange={(e) => setReview(e.target.value)} />
+      {/* <label htmlFor="Review" /> */}
+      {/* <input name="review" value={review} } /> */}
     
 
 <br/>
-<ReviewTFsubmitButton />
+{/* <ReviewTFsubmitButton /> */}
 </form>
 
 

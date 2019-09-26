@@ -24,6 +24,11 @@ const useStyles = makeStyles(theme => ({
   
   const ReviewsTable = (props) => {
     const [selectedCity,setSelectedCity] = useState('');
+    const [sessionToken, setSessionToken] = useState('');
+    const [token, setToken] = useState('');
+
+    const [editUpdateReview, setEditUpdateReview] = useState('');
+    const [updateOn, setUpdateOn] = useState('');
     // const [value, setValues] = useState('');
   
     const classes = useStyles();
@@ -49,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
     const fetchReviews = (e) => { 
         e.preventDefault();
-        console.log(e.target.value);
+        // console.log(e.target.value);
         let city = e.target.value
         console.log(props.token);
         fetch(`https://travel-app-server.herokuapp.com/experience/${city}`, { 
@@ -77,7 +82,7 @@ const useStyles = makeStyles(theme => ({
           </InputLabel>
           <Select
             value={selectedCity}
-            onChange={(e) => fetchReviews(e)}
+            onChange={(e) => {setSelectedCity(e.target.value);fetchReviews(e);}}
             labelWidth={labelWidth}
             inputProps={{
               name: 'age',
@@ -97,9 +102,12 @@ const useStyles = makeStyles(theme => ({
 
 
 
-      {/* <ReviewCreate /> */}
-        <ReviewsComponent fetchReviews={fetchReviews} reviewsTable={reviews}/>
+        <ReviewsComponent token={props.token} fetchReviews={fetchReviews} reviewsTable={reviews} selectedCity={selectedCity} setReviews={setReviews} setLocation={setLocation} editUpdateReview={editUpdateReview} updateOn={updateOn}/>
+        
 
+      <ReviewCreate token={props.token} selectedCity={selectedCity}/>
+
+      
       
     
             {/* /* without the div, I get an error. In react we must enclose everything in the return.  */}
@@ -108,4 +116,6 @@ const useStyles = makeStyles(theme => ({
   } 
   
   export default ReviewsTable
+
+  //At one point I was calling ReviewsTable in ReviewsComponent and ReviewsComponent in ReviewsTable. This created an infinate loop. KEEP YOUR JUNK ORGANIZED!
   

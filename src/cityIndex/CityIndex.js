@@ -11,7 +11,7 @@ const CityIndex = () => {
 
 return (
    <div>
-       <ReviewsTable />
+       {/* <ReviewsTable /> */}
        {/* <ReviewIndex /> */}
 
 

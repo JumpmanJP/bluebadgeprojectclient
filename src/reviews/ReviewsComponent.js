@@ -1,51 +1,71 @@
 import React, {useState} from 'react';
 import {Table, Button} from 'reactstrap';
+import ReviewsTable from './ReviewsTable';
+import ReviewEditUpdate from './ReviewEditUpdate';
 
 const ReviewsComponent = (props) => {
-    const [locationOfExperience, setLocationOfExperience] = useState('');
-    const [reviewsOfExperience, setReviewsOfExperience] = useState([]);
-    const [ownerOfExperience, setOwnerOfExperience] = useState('');
-    const [review, setReview] = useState('');
+    // const [locationOfExperience, setLocationOfExperience] = useState('');
+    // const [reviewsOfExperience, setReviewsOfExperience] = useState([]);
+    // const [ownerOfExperience, setOwnerOfExperience] = useState('');
+    // const [review, setReview] = useState('');
+    const [fetchReviews, setFetchReviews] = useState([]);
+    const [location, setLocation] = useState('');
+    const [reviews, setReviews] = useState('');
 
-    // (locationOfExperience === {selectedCity}) ? reviewsMapper : null ; 
+    const[updateActive, setUpdateActive] = useState(false);
 
-  const deleteReview = (review) => {
-    fetch(`https://travel-app-server.herokuapp.com/experience/${ownerOfExperience.id}`, {
+
+    console.log(props.reviewsTable)
+
+
+
+    // For my delete review, I needed to add my parameters (e,id) to the function. I also used string interpolation to add ${id} to the end of my url so that muliple diffrent ids can be used in the same url. 
+    // DELETE REVIEW
+    const deleteReview = (e,id) => { 
+      e.preventDefault();
+      fetch(`https://travel-app-server.herokuapp.com/experience/${id}`, { 
         method: 'DELETE', 
         headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': props.token
+          'Content-Type': 'application/json',
+          'Authorization': props.token 
         })
-    })
-    .then(() => props.fetchReviews())
-  }
-
-  const updateReview = (review) => {
-    fetch(`https://travel-app-server.herokuapp.com/experience/${ownerOfExperience.id}`, {
-        method: 'PUT', 
+      }) .then((res) => res.json())
+      .then(() =>  
+        fetchReviewsTwo(e))
+        // console.log(logData)
+        // setLocation(''); 
+        // setReview('');  
+    }
+// We changed this function name to fetchReviewsTwo so that it would be connected to deleteReviews. We passed props from ReviewsComponent so that props.setReviews and props.setLocation and props.selectedCity would be shared. 
+    const fetchReviewsTwo = (e) => { 
+      // e.preventDefault();
+      // console.log(e.target.value);
+      // let city = e.target.value
+      console.log(props.token);
+      fetch(`https://travel-app-server.herokuapp.com/experience/${props.selectedCity}`, { 
+        method: 'GET',
         headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': props.token
+          'Content-Type': 'application/json',
+          'Authorization': props.token 
         })
-    })
-    .then(() => props.fetchReviews())
-  }
-// console.log(props.reviewsTable);
-  const reviewsMapper = () => {
-     props.reviewsTable.map((review, index) => {
-      return(
-        <tr key={index}>
-          <th scope="row">{}</th>
-          <td>{props.selectedCity}</td>
-          <td>{props.reviewsOfExperience}</td>
-          <td>
-            <Button color="warning" onClick={() => {updateReview(review)}}>Update</Button>
-            <Button color="danger" onClick={() => {deleteReview(review)}}>Delete</Button>
-          </td>
-        </tr>
-      )
-    })
-  }
+      }) .then((res) => res.json())
+      .then((logData) => { 
+        console.log(logData);
+        props.setReviews(logData);
+        props.setLocation(''); 
+      })
+    }
+//THIS IS NEXT STEP. we are passing in a prop from the wrong area and getting the wrong data. The update functionality wants to work, but its having trouble.
+
+const updateReview = () => { 
+
+  setUpdateActive(!updateActive)
+
+
+}
+    
+
+
 
   return(
     <>
@@ -59,11 +79,33 @@ const ReviewsComponent = (props) => {
         </tr>
       </thead>
       <tbody>
-        {reviewsMapper()}
+              {props.reviewsTable? 
+               props.reviewsTable.map((review, index) => {
+                return(
+                  <tr key={index}>
+                 {/* <th scope="row">{}</th> */}
+                 <td>{review.locationOfExperience}</td>
+                 <td>{review.reviewsOfExperience}</td>
+                 <td>
+                   <Button color="warning" onClick={(e) => updateReview()}>Update</Button>
+                   </td>
+                   <td>
+                   <Button color="red" onClick={e => deleteReview(e,review.id)}>Delete</Button>
+                 </td>
+               </tr>
+             )
+            })
+            :null}
+
       </tbody>
+
     </Table>
+
+    <ReviewEditUpdate isOpen={updateActive} review={reviews}  />
     </>
   )
 }
 
 export default ReviewsComponent;
+
+//The function call reviewMapper() did not work in the function return. I needed to move my whole table  into my return for it to work. 

@@ -30,31 +30,36 @@ const useStyles = makeStyles(theme => ({
 const ReviewEditUpdate = (props) => {
   const [editReview, setEditReview] = useState('');
   const [editLocation, setEditLocation] = useState('');
-  const classes = useStyles();
 
-  const editUpdateReview = (e,id) => { 
+  const classes = useStyles();
+console.log(props.storeId);
+  const editUpdateReview = (e) => { 
       e.preventDefault()
-    fetch(`https://travel-app-server.herokuapp.com/experience/${id}`, { 
+    fetch(`https://travel-app-server.herokuapp.com/experience/${props.storeId}`, { 
     method: 'PUT',
     headers: new Headers({
       'Content-Type': 'application/json',
       'Authorization': props.token 
     }),
-    body: { 
+    body: JSON.stringify({ 
       locationOfExperience: editLocation,
-      ownerOfExperience: id,
+      ownerOfExperience: props.storeId,
       reviewsOfExperience: editReview 
-    }
+    })
   }) .then((res) => res.json())
   .then(() =>  {
     props.fetchReviewsTwo()})
   }
-console.log(props.review.id);
+// Justin helped me find my last error that was preventing me from updating to the site. My PROPS agian. God damn props. I have got to get better at passing props. props.fetchReviewsTwo needed to be passed to <ReviewEditUpdate from the ReviewsComponent.js file. Eric also helped me find a potential error with CORS. My app.js file for my SERVER needed to also called let cors=require('cors) and app.use(cors()). This was after we did npm install cors to update cors on my application. THE BIGGEST TAKEAWAY FROM THIS PROJECT WAS THE USE OF PROPS. IT IS AWESOME WHEN UTILIZED PROPERLY.
+
+
+
+// console.log(props.review.id);
 return(
   <Modal isOpen={props.isOpen}>
     <ModalHeader>Update Your Review</ModalHeader>
     <ModalBody>
-      <Form onSubmit={(e) => {editUpdateReview(e, props.review.id)}} >
+      <Form onSubmit={(e) => {editUpdateReview(e)}} >
       <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel  htmlFor="outlined-age-simple">
             City

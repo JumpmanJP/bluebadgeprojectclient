@@ -11,6 +11,7 @@ const ReviewsComponent = (props) => {
     const [fetchReviews, setFetchReviews] = useState([]);
     const [location, setLocation] = useState('');
     const [reviews, setReviews] = useState('');
+    const [storeId, setStoreId] = useState('');
 
     const[updateActive, setUpdateActive] = useState(false);
 
@@ -57,13 +58,13 @@ const ReviewsComponent = (props) => {
     }
 //THIS IS NEXT STEP. we are passing in a prop from the wrong area and getting the wrong data. The update functionality wants to work, but its having trouble.
 
-const updateReview = () => { 
+const updateReview = (id) => { 
 
   setUpdateActive(!updateActive)
-
+  setStoreId(id)
 
 }
-    
+    //Justin helped me set up these states so that we could pass props to ReviewEditUpdate.js and keep the data in circulation. 
 
 
 
@@ -87,7 +88,7 @@ const updateReview = () => {
                  <td>{review.locationOfExperience}</td>
                  <td>{review.reviewsOfExperience}</td>
                  <td>
-                   <Button color="warning" onClick={(e) => updateReview()}>Update</Button>
+                   <Button color="warning" onClick={(e) => updateReview(review.id)}>Update</Button>
                    </td>
                    <td>
                    <Button color="red" onClick={e => deleteReview(e,review.id)}>Delete</Button>
@@ -101,7 +102,7 @@ const updateReview = () => {
 
     </Table>
 
-    <ReviewEditUpdate isOpen={updateActive} review={reviews}  />
+    <ReviewEditUpdate storeId={storeId} isOpen={updateActive} review={reviews}  token={props.token} fetchReviewsTwo={fetchReviewsTwo}/>
     </>
   )
 }
